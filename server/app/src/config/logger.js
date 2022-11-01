@@ -1,3 +1,5 @@
+'use strict';
+
 const { createLogger, transports, format } = require('winston');
 const { combine, colorize, timestamp, simple, printf, label } = format;
 
@@ -8,7 +10,7 @@ const printFormat = printf(({ timestamp, label, level, message }) => {
 const printLogFormat = {
     file: combine(
         label({
-            label: 'GDGM'
+            label: 'GDGM node'
         }), 
         timestamp({
             format: 'YYYY-MM-DD HH:mm:dd:ss'
