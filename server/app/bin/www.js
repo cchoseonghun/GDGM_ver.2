@@ -1,8 +1,10 @@
 'use strict';
 
 const app = require('../app');
-const PORT = process.env.PORT;
+const logger = require('../src/config/logger');
+
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
-    console.log(`${PORT} 포트로 서버 실행`);
+    logger.info(`${PORT} 포트 서버 가동`);
 });
