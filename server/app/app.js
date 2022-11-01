@@ -11,7 +11,7 @@ const home = require('./src/routes/home');
 // dotenv
 dotenv.config();
 // reading React build file
-app.use(express.static(path.join(__dirname, '../../client/build')));
+app.use(express.static(path.join(__dirname, '../../client/app/build')));
 // CORS policy
 app.use(express.json());
 app.use(cors());

@@ -4,7 +4,7 @@ const logger = require('../../config/logger');
 
 const output = {
     index: (req, res) => {
-        res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+        res.sendFile(path.join(__dirname, '../../client/app/build/index.html'));
     }, 
 }
 
