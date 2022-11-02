@@ -10,6 +10,7 @@ cors
 dotenv
 path
 winston
+mysql
 ```
 
 ### React

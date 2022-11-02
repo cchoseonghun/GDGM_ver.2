@@ -1,6 +1,7 @@
 'use strict';
 
 const logger = require('../../config/logger');
+const User = require('../../models/User');
 
 const output = {
     index: (req, res) => {
@@ -9,15 +10,15 @@ const output = {
 }
 
 const process = {
-    login: (req, res) => {
-        const response = { success: true, msg: 'hi' };
+    login: async (req, res) => {
+        const user = new User(req.body);
+        const response = await user.login();
 
         const url = {
             method: 'POST', 
             path: '/login', 
             body: JSON.stringify(req.body), 
-            // status: response.err ? 400 : 200, 
-            status: 200, 
+            status: response.err ? 400 : 200, 
         };
         log(response, url);
         return res.status(url.status).json(response);
