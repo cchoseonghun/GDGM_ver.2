@@ -17,4 +17,7 @@ mysql
 ```
 react-router-dom
 axios
+@reduxjs/toolkit
+react-redux
+redux-persist
 ```

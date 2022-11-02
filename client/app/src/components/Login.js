@@ -1,18 +1,22 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLogin } from '../store/slice.user';
 
 function Login() {
+    let state = useSelector((state)=> state );
+    let dispatch = useDispatch();
     let navigate = useNavigate();
 
     let [id, setId] = useState('');
     let [psword, setPsword] = useState('');
-    
-    let [isLogin, setIsLogin] = useState(false);
+
+    // let [isLogin, setIsLogin] = useState(false);
 
     return (
         <>
-        { isLogin && <button onClick={()=>{setIsLogin(false)}}>로그아웃</button> }
+        { state.user.isLogin && <button onClick={()=>{dispatch(setIsLogin(false));}}>로그아웃</button> }
         <div className='container'>
             <div className="mb-3 mt-5" style={{ width: '18rem', marginLeft: 'auto', marginRight: 'auto' }}>
                 <h1 onClick={()=>{navigate('/')}} className="mt-5">공대공머</h1>
@@ -44,16 +48,15 @@ function Login() {
         }).then((res)=>{
             const response = res.data;
             if(response.success){
+                // setIsLogin(true);
+                dispatch(setIsLogin(true));
                 navigate('/');
-                setIsLogin(true);
             } else {
                 if(response.err) return alert(response.err);
                 alert(response.msg);
             }
             // if(parseInt(result.data.code) > 0){
-                // dispatch(setLogin(result.data.data));
                 // localStorage.setItem('session_user', JSON.stringify(result.data.data));
-                // dispatch(setUser(1));
             // }
         }).catch(()=>{
             console.error(new Error('로그인 중 에러 발생'));
