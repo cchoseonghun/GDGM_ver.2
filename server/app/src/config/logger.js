@@ -24,6 +24,9 @@ const printLogFormat = {
 }
 
 const opts = {
+    // 요청에 대해서는 access.log
+    // 쿼리에 대해서는 어떻게?
+    // 어떤식으로 로그를 하는게 안전한지 자문 구하기
     file: new transports.File({
         filename: 'access.log', 
         dirname: './logs', 
