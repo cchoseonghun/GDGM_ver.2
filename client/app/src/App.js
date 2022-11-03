@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Login from './components/Login';
 import Groups from './components/Groups';
 import Nav from './components/Nav';
+import Register from './components/Register';
 
 function App() {
   let state = useSelector((state)=> state );
@@ -20,6 +21,8 @@ function App() {
           <Route path='/' element={ <Login /> }></Route>
         }
         {/* <Route path='/raid' element={ <Raid /> }></Route> */}
+        <Route path='/login' element={ <Login /> }></Route>
+        <Route path='/register' element={ <Register /> }></Route>
       </Routes>
     </div>
   );
