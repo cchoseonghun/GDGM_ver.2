@@ -23,6 +23,19 @@ const process = {
         log(response, url);
         return res.status(url.status).json(response);
     }, 
+    register: async (req, res) => {
+        const user = new User(req.body);
+        const response = await user.register();
+
+        const url = {
+            method: 'POST', 
+            path: '/register', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        log(response, url);
+        return res.status(url.status).json(response);
+    }, 
 }
 
 module.exports = {

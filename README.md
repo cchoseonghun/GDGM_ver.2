@@ -11,6 +11,7 @@ dotenv
 path
 winston
 mysql
+bcrypt
 ```
 
 ### React

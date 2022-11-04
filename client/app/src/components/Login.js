@@ -27,7 +27,7 @@ function Login() {
                 <div className="form-floating">
                     <input className="form-control" id="psword" type="password" onChange={(e)=>{setPsword(e.target.value)}} />
                     <label htmlFor="psword">비밀번호</label>
-                    <div className="form-text">아직 회원가입을 안하셨다면? <a href="/register">간편 회원가입</a></div>
+                    <div className="form-text">아직 회원가입을 안하셨다면? <a onClick={()=>{navigate('/register')}} style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>간편 회원가입</a></div>
                 </div>
                 <div className="d-grid gap-2">
                     <button className="btn btn-primary" type="button" onClick={()=>{login()}}>로그인</button>
