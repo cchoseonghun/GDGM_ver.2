@@ -1,19 +1,15 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setIsLogin } from '../store/slice.user';
 
 function Login() {
-    // let state = useSelector((state)=> state );
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
     let [id, setId] = useState('');
     let [psword, setPsword] = useState('');
-
-    // let [isLogin, setIsLogin] = useState(false);
 
     return (
         <>
@@ -27,7 +23,7 @@ function Login() {
                 <div className="form-floating">
                     <input className="form-control" id="psword" type="password" onChange={(e)=>{setPsword(e.target.value)}} />
                     <label htmlFor="psword">비밀번호</label>
-                    <div className="form-text">아직 회원가입을 안하셨다면? <a onClick={()=>{navigate('/register')}} style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>간편 회원가입</a></div>
+                    <div className="form-text">아직 회원가입을 안하셨다면? <span onClick={()=>{navigate('/register')}} style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>간편 회원가입</span></div>
                 </div>
                 <div className="d-grid gap-2">
                     <button className="btn btn-primary" type="button" onClick={()=>{login()}}>로그인</button>
@@ -48,16 +44,13 @@ function Login() {
         }).then((res)=>{
             const response = res.data;
             if(response.success){
-                // setIsLogin(true);
                 dispatch(setIsLogin(true));
+                localStorage.setItem('session_user', JSON.stringify(response.user));
                 navigate('/');
             } else {
                 if(response.err) return alert(response.err);
                 alert(response.msg);
             }
-            // if(parseInt(result.data.code) > 0){
-                // localStorage.setItem('session_user', JSON.stringify(result.data.data));
-            // }
         }).catch(()=>{
             console.error(new Error('로그인 중 에러 발생'));
         })

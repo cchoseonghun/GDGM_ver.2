@@ -30,7 +30,7 @@ function Register() {
                 <div className="form-floating">
                     <input className="form-control" id="confirmPsword" type="password" onChange={(e)=>{setConfirmPsword(e.target.value)}} />
                     <label htmlFor="confirmPsword">비밀번호 확인</label>
-                    <div className="form-text">이미 회원가입을 하셨다면? <a onClick={()=>{navigate('/login')}} style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>로그인</a></div>
+                    <div className="form-text">이미 회원가입을 하셨다면? <span onClick={()=>{navigate('/login')}} style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}>로그인</span></div>
                 </div>
                 <div className="d-grid gap-2">
                     <button className="btn btn-primary" type="button" onClick={()=>{register()}}>회원가입</button>

@@ -13,16 +13,16 @@ function App() {
 
   return (
     <div className="App">
-      { state.user.isLogin && <Nav /> }
+      <Nav />
       <Routes>
         {
           state.user.isLogin ?
           <Route path='/' element={ <Groups /> }></Route> :
           <Route path='/' element={ <Login /> }></Route>
         }
-        {/* <Route path='/raid' element={ <Raid /> }></Route> */}
         <Route path='/login' element={ <Login /> }></Route>
         <Route path='/register' element={ <Register /> }></Route>
+        {/* <Route path='/raid' element={ <Raid /> }></Route> */}
       </Routes>
     </div>
   );
