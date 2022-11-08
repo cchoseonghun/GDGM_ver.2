@@ -9,7 +9,9 @@ const app = express();
 
 const cors = require('cors');
 const path = require('path');
+
 const home = require('./src/routes/home');
+const group = require('./src/routes/group');
 
 // reading React build file
 app.use(express.static(path.join(__dirname, '../../client/app/build')));
@@ -19,7 +21,8 @@ app.use(cors());
 // body parser
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
+// controller
 app.use('/', home);
+app.use('/group', group);
 
 module.exports = app;

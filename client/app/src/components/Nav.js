@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setIsLogin } from '../store/slice.user';
 import Clock from './Clock'
+import { setIsLogin } from '../store/slice.user';
 
 function Nav() {
     let dispatch = useDispatch();
@@ -13,8 +13,8 @@ function Nav() {
     return (
         <>
         <div className="container">
-            <nav className="navbar navbar-expand-lg bg-light">
-                <div className="navbar-brand" style={{ cursor: 'pointer', marginLeft: '10px'}} >GDGM</div>
+            <nav className="navbar navbar-expand-lg">
+                <div onClick={()=>{navigate('/')}} className="navbar-brand" style={{ cursor: 'pointer' }} >GDGM</div>
                 {
                     state.user.isLogin &&
                     <>
@@ -35,6 +35,7 @@ function Nav() {
                     </>
                 }
             </nav>
+            { state.alert.switch && <div className={'alert alert-'+state.alert.variant} role={state.alert.variant} style={{ textAlign: 'center' }}>{state.alert.message}</div> }
         </div>
         </>
     )

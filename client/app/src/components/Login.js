@@ -45,7 +45,7 @@ function Login() {
             const response = res.data;
             if(response.success){
                 dispatch(setIsLogin(true));
-                localStorage.setItem('session_user', JSON.stringify(response.user));
+                localStorage.setItem('session_user', JSON.stringify(response.data));
                 navigate('/');
             } else {
                 if(response.err) return alert(response.err);

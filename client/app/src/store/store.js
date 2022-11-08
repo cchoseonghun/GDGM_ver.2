@@ -5,17 +5,13 @@ import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 
 import user from './slice.user';
+import alert from './slice.alert';
 // import raid from './raidSlice'
-// import modal from './modalSlice'
-// import group from './groupSlice'
-// import alert from './alertSlice'
 
 const reducers = combineReducers({
     user: user.reducer, 
+    alert: alert.reducer, 
     // raid: raid.reducer, 
-    // modal: modal.reducer, 
-    // group: group.reducer, 
-    // alert: alert.reducer, 
 });
 
 const persistConfig = {
@@ -23,7 +19,6 @@ const persistConfig = {
     storage: storage, 
     blacklist: [ 
         // 'alert', 
-        // 'modal'
     ], //유지시키지 않을 리스트
     // whitelist: [ 'group' ], 
 };
