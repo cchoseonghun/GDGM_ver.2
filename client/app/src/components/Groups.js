@@ -1,16 +1,22 @@
-import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
 import NewGroup from './modals/Modal.newGroup';
 import AddGroup from './modals/Modal.addGroup';
-import { useEffect, useState } from 'react';
+import { setGroup } from '../store/slice.group';
 
 function Groups() {
+    let navigate = useNavigate();
+    let dispatch = useDispatch();
     let state = useSelector((state)=> state );
+
     let session_user = JSON.parse(localStorage.getItem('session_user'));
     let [groupList, setGroupList] = useState({});
 
     useEffect(() => {
-        getGroups();
+        getGroupList();
     }, [state.alert.switch]);
 
     return (
@@ -28,7 +34,7 @@ function Groups() {
                     {
                         groupList.length > 0 ?
                             groupList.map( (group, i) => 
-                                <button key={i} className="btn btn-success btn-lg" type="button">{group.name}</button>
+                                <button onClick={()=>{selectGroup(group.idx)}} key={i} className="btn btn-success btn-lg" type="button">{group.name}</button>
                             ) : 
                             <button className="btn btn-secondary btn-lg" type="button">가입된 공격대가 없습니다.</button>
                     }
@@ -38,32 +44,16 @@ function Groups() {
         </div>
         <NewGroup />
         <AddGroup />
-        {/* { state.modal.show && <ModalGroup /> } */}
-
-        {/* { state.modal.modalName == 'AddGroup' && <AddGroup /> } */}
-
-        {/* <Container className="mt-5">
-            <div className="btn-group mb-2">
-                <Button onClick={()=>{showModal('AddGroup')}} variant="outline-primary" >공대추가</Button>
-            </div>
-            <Card className="text-center" style={{ width: '18rem', marginLeft: 'auto', marginRight: 'auto' }}>
-            <Card.Body>
-                <div className='d-grid gap-2'>
-                {
-                    list.length > 0 ?
-                    list.map( (a, i) => 
-                        <Button key={i} onClick={()=>{selectGroup(a._id, a.name, a.members)}} variant="success" size="lg">{a.name}</Button>
-                        ) : 
-                        <Button variant="secondary" size="lg">가입된 공격대가 없습니다.</Button>
-                }
-                </div>
-            </Card.Body>
-            </Card>
-        </Container> */}
         </>
     )
 
-    function getGroups() {
+    function selectGroup(idx) {
+        const group = groupList.filter((group) => group.idx === idx);
+        dispatch(setGroup(group[0]));
+        navigate('/raid');
+    }
+
+    function getGroupList() {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
         axios.get(server_address + '/group/list', {
             params: {user_id: session_user.id}, 

@@ -6,11 +6,13 @@ import thunk from 'redux-thunk';
 
 import user from './slice.user';
 import alert from './slice.alert';
+import group from './slice.group';
 // import raid from './raidSlice'
 
 const reducers = combineReducers({
     user: user.reducer, 
     alert: alert.reducer, 
+    group: group.reducer, 
     // raid: raid.reducer, 
 });
 
