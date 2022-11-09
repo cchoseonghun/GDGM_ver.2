@@ -16,6 +16,20 @@ const output = {
         // log(response, url);
         return res.status(url.status).json(response);
     }, 
+
+    code: async (req, res) => {
+        const group = new Group(req.query);
+        const response = await group.code();
+
+        const url = {
+            method: 'GET', 
+            path: '/group/code', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        // log(response, url);
+        return res.status(url.status).json(response);
+    }, 
 }
 
 const process = {

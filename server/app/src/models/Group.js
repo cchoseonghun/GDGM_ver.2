@@ -25,6 +25,16 @@ class Group {
             return { success: false, err };
         }
     }
+
+    async code() {
+        const client = this.body;
+        try {
+            const code = await GroupStorage.getCode(client.group_idx);
+            return { success: true, data: code};
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = Group;
