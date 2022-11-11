@@ -46,6 +46,20 @@ const process = {
         // log(response, url);
         return res.status(url.status).json(response);
     }, 
+
+    join: async (req, res) => {
+        const group = new Group(req.body);
+        const response = await group.join();
+
+        const url = {
+            method: 'POST', 
+            path: '/group/member', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        // log(response, url);
+        return res.status(url.status).json(response);
+    }, 
 }
 
 module.exports = {

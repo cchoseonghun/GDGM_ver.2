@@ -1,7 +1,13 @@
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { setAlert } from '../../store/slice.alert';
 
 function AddGroup() {
+    let dispatch = useDispatch();
+
     let [input, setInput] = useState('');
+    let session_user = JSON.parse(localStorage.getItem('session_user'));
 
     return (
         <>
@@ -27,6 +33,30 @@ function AddGroup() {
     function addGroup() {
         if(!input) return alert('공격대 코드를 입력해주십시오.');
 
+        const server_address = process.env.REACT_APP_SERVER_ADDRESS;
+        axios.post(server_address + '/group/member', {
+            code: input, 
+            user_id: session_user.id, 
+        }).then((res)=>{
+            const response = res.data;
+            if(response.success){
+                showAlert('success', response.msg);
+            } else {
+                // if(response.err) return alert(response.err);
+                // alert(response.msg);
+                showAlert('danger', response.msg);
+            }
+        }).catch(()=>{
+            console.error(new Error('공격대 추가 중 에러 발생'));
+        })
+    }
+
+    function showAlert(variant, message) {
+        dispatch(setAlert({switch: true, variant: variant, message: message}));
+        setTimeout(()=>{
+            dispatch(setAlert({switch: false, variant: '', content: ''}));
+        }, 5000);
+        document.querySelector('.btn-close').click();
     }
 }
 

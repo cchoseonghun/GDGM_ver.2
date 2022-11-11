@@ -6,7 +6,7 @@ const crypto = require('crypto');
 class GroupStorage {
     static save(groupInfo) {
         return new Promise((resolve, reject) => {
-            const query = 'INSERT INTO `groups`(`name`, `members`) VALUES (?, ?);'
+            const query = 'INSERT INTO `groups`(`name`, `members`) VALUES (?, json_array(?));'
             db.query(query, [groupInfo.name, JSON.stringify({"id": groupInfo.user_id, "rank": 0})], (err) => {
                 if(err) reject(`${err}`);
                 else resolve({ success: true, msg: `[${groupInfo.name}] 공격대 생성 완료` });
@@ -16,7 +16,7 @@ class GroupStorage {
 
     static getGroups(id) {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM `groups` WHERE json_unquote(json_extract(members, "$.id")) = ?;';
+            const query = 'SELECT * FROM `groups` WHERE json_unquote(json_extract(members, "$[0].id")) = ?;';
             db.query(query, [id], (err, data) => {
                 if (err) reject(`${err}`);
                 else resolve(data);
@@ -44,6 +44,39 @@ class GroupStorage {
                         });
                     }
                     resolve(code);
+                }
+            });
+        });
+    }
+
+    static addMember(client) {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM invite WHERE expired = false AND code = ?;';
+            db.query(query, [client.code], (err, data) => {
+                if (err) reject(`${err}`);
+                else {
+                    if (data) {
+                        const group_idx = data[0].group_idx;
+                        const query = 'SELECT COUNT(*) AS cnt FROM `groups` WHERE json_unquote(json_extract(members, "$[0].id")) = ? AND idx = ?;';
+                        db.query(query, [client.user_id, group_idx], (err, data) => {
+                            if (err) reject(`${err}`);
+                            else {
+                                if (data[0].cnt > 0) {
+                                    resolve({ success: false, msg: '이미 그룹에 속해있습니다.' });
+                                } else {
+                                    // update
+                                    const query = 'UPDATE `groups` SET members = json_array_append(members, ?, ?) WHERE idx = ?';
+                                    db.query(query, ['$', JSON.stringify({"id": client.user_id, "rank": 1}), group_idx], (err, data) => {
+                                        if (err) reject(`${err}`);
+                                        else {
+                                            resolve({ success: true, msg: '공격대 추가 완료.' });
+                                        }
+                                    });
+
+                                }
+                            }
+                        });
+                    } else resolve({ success: false, msg: '유효하지 않은 초대코드 입니다.' });
                 }
             });
         });

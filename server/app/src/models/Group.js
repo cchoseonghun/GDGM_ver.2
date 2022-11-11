@@ -7,15 +7,6 @@ class Group {
         this.body = body;
     }
 
-    async create() {
-        const client = this.body;
-        try {
-            return await GroupStorage.save(client);
-        } catch (err) {
-            return { success: false, err };
-        }
-    }
-
     async list() {
         const client = this.body;
         try {
@@ -31,6 +22,24 @@ class Group {
         try {
             const code = await GroupStorage.getCode(client.group_idx);
             return { success: true, data: code};
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
+    async create() {
+        const client = this.body;
+        try {
+            return await GroupStorage.save(client);
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
+    async join() {
+        const client = this.body;
+        try {
+            return await GroupStorage.addMember(client);
         } catch (err) {
             return { success: false, err };
         }
