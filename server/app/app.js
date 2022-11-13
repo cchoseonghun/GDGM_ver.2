@@ -10,6 +10,9 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 
+const db = require('./src/config/db');
+db();
+
 const home = require('./src/routes/home');
 const group = require('./src/routes/group');
 

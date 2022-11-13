@@ -1,9 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '../store/slice.alert';
 
 function Register() {
     let navigate = useNavigate();
+    let dispatch = useDispatch();
 
     let [id, setId] = useState('');
     let [name, setName] = useState('');
@@ -54,14 +57,21 @@ function Register() {
         }).then((res)=>{
             const response = res.data;
             if(response.success){
+                showAlert('success', response.msg);
                 navigate('/login');
             } else {
-                if(response.err) return alert(response.err);
-                alert(response.msg);
+                showAlert('danger', response.msg);
             }
         }).catch(()=>{
             console.error(new Error('회원가입 중 에러 발생'));
         })
+    }
+
+    function showAlert(variant, message) {
+        dispatch(setAlert({switch: true, variant: variant, message: message}));
+        setTimeout(()=>{
+            dispatch(setAlert({switch: false, variant: '', content: ''}));
+        }, 5000);
     }
 }
 

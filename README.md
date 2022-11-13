@@ -12,6 +12,8 @@ path
 winston
 mysql
 bcrypt
+mongodb
+mongoose
 ```
 
 ### React
@@ -23,7 +25,8 @@ react-redux
 redux-persist
 ```
 
-### 앞으로 추가되야할 기능 (11.09)
+### 앞으로 추가되야할 기능 (11.11)
+- mysql -> mongodb 로 변환 및 mongoose 도입 시도 시작
 - 공격대 멤버 및 초대 기능 (진행중)
 - 레이드(Raids)
 - 세부 기능 조율 (마무리 작업)
