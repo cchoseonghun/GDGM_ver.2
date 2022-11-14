@@ -16,7 +16,7 @@ function AddGroup() {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="AddGroupLabel">공격대 추가</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">2</button>
                     </div>
                     <div className="modal-body">
                         <div className="input-group mb-3">
@@ -36,14 +36,14 @@ function AddGroup() {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
         axios.post(server_address + '/group/member', {
             code: input, 
-            user_id: session_user.id, 
+            _id_user: session_user._id, 
+            id_user: session_user.id, 
+            name_user: session_user.name, 
         }).then((res)=>{
             const response = res.data;
             if(response.success){
                 showAlert('success', response.msg);
             } else {
-                // if(response.err) return alert(response.err);
-                // alert(response.msg);
                 showAlert('danger', response.msg);
             }
         }).catch(()=>{
@@ -56,7 +56,7 @@ function AddGroup() {
         setTimeout(()=>{
             dispatch(setAlert({switch: false, variant: '', content: ''}));
         }, 5000);
-        document.querySelector('.btn-close').click();
+            document.querySelectorAll('.btn-close')[1].click();
     }
 }
 

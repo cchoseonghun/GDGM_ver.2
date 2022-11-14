@@ -16,7 +16,7 @@ function NewGroup() {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="NewGroupLabel">공격대 생성</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">1</button>
                     </div>
                     <div className="modal-body">
                         <div className="input-group mb-3">
@@ -46,7 +46,7 @@ function NewGroup() {
                 setTimeout(()=>{
                     dispatch(setAlert({switch: false, variant: '', content: ''}));
                 }, 5000);
-                document.querySelector('.btn-close').click();
+                document.querySelectorAll('.btn-close')[0].click();
             } else {
                 if(response.err) return alert(response.err);
                 alert(response.msg);

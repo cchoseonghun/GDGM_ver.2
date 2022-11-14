@@ -58,28 +58,32 @@ class GroupStorage {
 
     static addMember(client) {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM invite WHERE expired = false AND code = ?;';
-            db.query(query, [client.code], (err, data) => {
+            Invite.find({ expired: false, code: client.code }, (err, data) => {
                 if (err) reject(`${err}`);
                 else {
-                    if (data) {
-                        const group_idx = data[0].group_idx;
-                        const query = 'SELECT COUNT(*) AS cnt FROM `groups` WHERE json_unquote(json_extract(members, "$[0].id")) = ? AND idx = ?;';
-                        db.query(query, [client.user_id, group_idx], (err, data) => {
+                    if (data.length > 0) {
+                        const group_id = data[0].group_id;
+                        Group.count({ _id: group_id, members: { $elemMatch: { _id: ObjectId(client._id_user) } } }, (err, data) => {
                             if (err) reject(`${err}`);
                             else {
-                                if (data[0].cnt > 0) {
-                                    resolve({ success: false, msg: '이미 그룹에 속해있습니다.' });
-                                } else {
-                                    // update
-                                    const query = 'UPDATE `groups` SET members = json_array_append(members, ?, ?) WHERE idx = ?';
-                                    db.query(query, ['$', JSON.stringify({"id": client.user_id, "rank": 1}), group_idx], (err, data) => {
-                                        if (err) reject(`${err}`);
-                                        else {
-                                            resolve({ success: true, msg: '공격대 추가 완료.' });
+                                if (data > 0) resolve({ success: false, msg: '이미 그룹에 속해있습니다.' });
+                                else {
+                                    Group.updateOne(
+                                        { _id: group_id }, 
+                                        {
+                                            $push: {
+                                                members: {
+                                                    _id: ObjectId(client._id_user), 
+                                                    id: client.id_user, 
+                                                    name: client.name_user, 
+                                                    rank: 1, 
+                                                }
+                                            }
+                                        }, (err, data) => {
+                                            if (err) reject(`${err}`);
+                                            else resolve({ success: true, msg: '공격대 추가 완료.' });
                                         }
-                                    });
-
+                                    );
                                 }
                             }
                         });

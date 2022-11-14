@@ -9,7 +9,7 @@ router.get('/list', ctrl.output.list);
 router.get('/code', ctrl.output.code);
 
 router.post('/', ctrl.process.create);
-// router.post('/member', ctrl.process.join);
+router.post('/member', ctrl.process.join);
 
 module.exports = router;
 
