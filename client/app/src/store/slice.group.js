@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 let group = createSlice({
     name: 'group', 
     initialState: {
-        idx: 0, 
+        _id: '', 
         name: '', 
         members: [], 
     }, 
     reducers: {
         setGroup(state, action){
-            state.idx = action.payload.idx;
+            state._id = action.payload._id;
             state.name = action.payload.name;
             state.members = action.payload.members;
         }, 

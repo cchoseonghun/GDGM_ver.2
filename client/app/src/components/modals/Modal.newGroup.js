@@ -36,8 +36,9 @@ function NewGroup() {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
         axios.post(server_address + '/group', {
             name: input, 
-            user_id: session_user.id, 
-            user_name: session_user.name, 
+            _id_user: session_user._id, 
+            id_user: session_user.id, 
+            name_user: session_user.name, 
         }).then((res)=>{
             const response = res.data;
             if(response.success){

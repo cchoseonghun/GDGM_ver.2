@@ -10,7 +10,7 @@ class Group {
     async list() {
         const client = this.body;
         try {
-            const groups = await GroupStorage.getGroups(client.user_id);
+            const groups = await GroupStorage.getGroups(client._id_user);
             return { success: true, data: groups};
         } catch (err) {
             return { success: false, err };
@@ -20,7 +20,7 @@ class Group {
     async code() {
         const client = this.body;
         try {
-            const code = await GroupStorage.getCode(client.group_idx);
+            const code = await GroupStorage.getCode(client.group_id);
             return { success: true, data: code};
         } catch (err) {
             return { success: false, err };

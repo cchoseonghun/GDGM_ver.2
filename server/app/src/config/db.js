@@ -14,15 +14,16 @@ const mongoose = require('mongoose');
 module.exports = () => {
   function connect() {
     // mongoose.connect('아이디:비밀번호@주소:포트/admin', { dbName: '데이터베이스' }, function(err) {});
-    mongoose.connect(DB_URL, { dbName: DB_NAME }, function(err) {
-      if (err) {
-        console.error('mongodb connection error', err);
-      }
-      console.log('mongodb connected');
+    mongoose.connect(DB_URL, { dbName: DB_NAME }, (err) => {
+      if (err) console.error('mongodb connection error', err);
+      else console.log('mongodb connected');
     });
   }
   connect();
   mongoose.connection.on('disconnected', connect);
+
   // mongoose models 연결
   require('../mongoose/User');
+  require('../mongoose/Group');
+  require('../mongoose/Invite');
 };

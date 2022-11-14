@@ -37,7 +37,7 @@ class User {
             const user = await UserStorage.getUserInfo(client.id);
             if(user) {
                 if(user.id === client.id && await this.#checkPsword(client.psword, user.psword)) {
-                    return { success: true, data: {id: user.id, name: user.name}};
+                    return { success: true, data: { _id: user._id, id: user.id, name: user.name }};
                 }
                 return { success: false, msg: '비밀번호가 틀렸습니다.' };
             }
@@ -50,10 +50,10 @@ class User {
     async register() {
         const client = await this.#encryptPsword(this.body);
         try {
-            // const user = await UserStorage.getUserInfo(client.id);
-            // if(user) {
-            //     return { success: false, msg: '이미 가입된 아이디입니다.' };
-            // }
+            const user = await UserStorage.getUserInfo(client.id);
+            if(user) {
+                return { success: false, msg: '이미 가입된 아이디입니다.' };
+            }
             return await UserStorage.save(client);
         } catch (err) {
             return { success: false, err };

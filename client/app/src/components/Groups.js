@@ -34,7 +34,7 @@ function Groups() {
                     {
                         groupList.length > 0 ?
                             groupList.map( (group, i) => 
-                                <button onClick={()=>{selectGroup(group.idx)}} key={i} className="btn btn-success btn-lg" type="button">{group.name}</button>
+                                <button onClick={()=>{selectGroup(group._id)}} key={i} className="btn btn-success btn-lg" type="button">{group.name}</button>
                             ) : 
                             <button className="btn btn-secondary btn-lg" type="button">가입된 공격대가 없습니다.</button>
                     }
@@ -47,8 +47,8 @@ function Groups() {
         </>
     )
 
-    function selectGroup(idx) {
-        const group = groupList.filter((group) => group.idx === idx);
+    function selectGroup(_id) {
+        const group = groupList.filter((group) => group._id === _id);
         dispatch(setGroup(group[0]));
         navigate('/raid');
     }
@@ -56,7 +56,7 @@ function Groups() {
     function getGroupList() {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
         axios.get(server_address + '/group/list', {
-            params: {user_id: session_user.id}, 
+            params: {_id_user: session_user._id}, 
         }).then((res)=>{
             const response = res.data;
             if(response.success){

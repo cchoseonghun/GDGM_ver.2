@@ -36,7 +36,7 @@ function InviteGroup() {
     function getCode() {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
         axios.get(server_address + '/group/code', {
-            params: {group_idx: state.group.idx}, 
+            params: {group_id: state.group._id}, 
         }).then((res)=>{
             const response = res.data;
             if(response.success){
