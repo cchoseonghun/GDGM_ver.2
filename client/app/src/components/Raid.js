@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import InviteGroup from './modals/Modal.inviteGroup';
+import MemberGroup from './modals/Modal.memberGroup';
 
 function Raid() {
     let navigate = useNavigate();
@@ -26,8 +27,8 @@ function Raid() {
                 <button onClick={()=>{navigate('/')}} className="btn btn-outline-dark" type="button">뒤로</button>
                 <button className="btn btn-outline-success ms-1" 
                 type="button" data-bs-toggle="modal" data-bs-target="#InviteGroup">초대코드</button>
-
-                <button className="btn btn-outline-success ms-1" type="button">멤버</button>
+                <button className="btn btn-outline-success ms-1" 
+                type="button" data-bs-toggle="modal" data-bs-target="#MemberGroup">멤버</button>
                 <button className="btn btn-outline-primary ms-1" type="button">레이드추가</button>
 
                 {/* <Button onClick={()=>{navigate('/')}} variant="outline-dark" >뒤로</Button>
@@ -96,6 +97,7 @@ function Raid() {
             </div>
         </div>
         <InviteGroup />
+        <MemberGroup />
         </>
     )
 
