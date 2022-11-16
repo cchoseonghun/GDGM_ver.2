@@ -26,6 +26,15 @@ class RaidStorage {
             });
         });
     };
+
+    static getRaids(_id) {
+        return new Promise((resolve, reject) => {
+            Raid.find({ group_id: ObjectId(_id) }, (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve(data);
+            })
+        })
+    }
 }
 
 module.exports = RaidStorage;

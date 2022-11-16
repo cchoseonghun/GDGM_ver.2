@@ -15,6 +15,16 @@ class Raid {
             return { success: false, err };
         }
     }
+
+    async list() {
+        const client = this.body;
+        try {
+            const raids = await RaidStorage.getRaids(client._id_group);
+            return { success: true, data: raids};
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = Raid;
