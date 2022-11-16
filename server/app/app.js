@@ -15,6 +15,7 @@ db();
 
 const home = require('./src/routes/home');
 const group = require('./src/routes/group');
+const raid = require('./src/routes/raid');
 
 // reading React build file
 app.use(express.static(path.join(__dirname, '../../client/app/build')));
@@ -27,5 +28,6 @@ app.use(express.urlencoded({extended: true}));
 // controller
 app.use('/', home);
 app.use('/group', group);
+app.use('/raid', raid);
 
 module.exports = app;

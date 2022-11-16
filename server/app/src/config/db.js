@@ -26,4 +26,5 @@ module.exports = () => {
   require('../mongoose/User');
   require('../mongoose/Group');
   require('../mongoose/Invite');
+  require('../mongoose/Raid');
 };

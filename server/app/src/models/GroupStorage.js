@@ -18,8 +18,8 @@ class GroupStorage {
                     rank: 0
                 } 
             }, (err, result) => {
-                    if (err) reject(`${err}`);
-                    else resolve({ success: true, msg: `[${groupInfo.name}] 공격대 생성 완료` });
+                if (err) reject(`${err}`);
+                else resolve({ success: true, msg: `[${groupInfo.name}] 공격대 생성 완료` });
             });
         });
     };

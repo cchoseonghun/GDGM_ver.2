@@ -53,7 +53,7 @@ function NewGroup() {
             }
         }).catch(()=>{
             console.error(new Error('공격대 생성 중 에러 발생'));
-        })
+        });
     }
 }
 

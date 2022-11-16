@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 import InviteGroup from './modals/Modal.inviteGroup';
 import MemberGroup from './modals/Modal.memberGroup';
+import NewRaid from './modals/Modal.newRaid';
 
 function Raid() {
     let navigate = useNavigate();
@@ -29,12 +30,8 @@ function Raid() {
                 type="button" data-bs-toggle="modal" data-bs-target="#InviteGroup">초대코드</button>
                 <button className="btn btn-outline-success ms-1" 
                 type="button" data-bs-toggle="modal" data-bs-target="#MemberGroup">멤버</button>
-                <button className="btn btn-outline-primary ms-1" type="button">레이드추가</button>
-
-                {/* <Button onClick={()=>{navigate('/')}} variant="outline-dark" >뒤로</Button>
-                <Button className="ms-1" onClick={()=>{showModal('InviteCode')}} variant="outline-success" >초대코드</Button>
-                <Button className="ms-1" onClick={()=>{showModal('GroupMember')}} variant="outline-success" >멤버</Button>
-                <Button className="ms-1" onClick={()=>{showModal('AddRaid')}} variant="outline-primary" >레이드추가</Button> */}
+                <button className="btn btn-outline-primary ms-1" 
+                type="button" data-bs-toggle="modal" data-bs-target="#NewRaid">레이드생성</button>
             </div>
             <div id="carousel-container" className="carousel carousel-dark slide" data-bs-ride="false">
                 <div className="carousel-indicators">
@@ -98,6 +95,7 @@ function Raid() {
         </div>
         <InviteGroup />
         <MemberGroup />
+        <NewRaid />
         </>
     )
 

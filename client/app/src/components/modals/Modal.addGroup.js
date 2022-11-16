@@ -20,7 +20,7 @@ function AddGroup() {
                     </div>
                     <div className="modal-body">
                         <div className="input-group mb-3">
-                            <input onChange={(e)=>{setInput(e.target.value)}} type="text" className="form-control" placeholder="초대코드 입력 ex) ABCDE" />
+                            <input onChange={(e)=>{setInput(e.target.value)}} type="text" className="form-control" placeholder="초대코드 입력 ex) ABCDE" value={input}/>
                             <button onClick={()=>{addGroup()}} className="btn btn-outline-primary" type="button">추가</button>
                         </div>
                     </div>
@@ -42,6 +42,7 @@ function AddGroup() {
         }).then((res)=>{
             const response = res.data;
             if(response.success){
+                setInput('');
                 showAlert('success', response.msg);
             } else {
                 showAlert('danger', response.msg);
