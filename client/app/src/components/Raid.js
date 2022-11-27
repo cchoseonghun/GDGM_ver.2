@@ -35,10 +35,12 @@ function Raid() {
             <div id="carousel-container" className="carousel carousel-dark slide" data-bs-ride="false">
                 <div className="carousel-indicators">
                     {
-                        state.raid.data.map((raid, i) => 
+                        state.raid.data.length > 0 ?
+                        state.raid.data?.map((raid, i) => 
                             i === 0 ? <button key={i} type="button" data-bs-target="#carousel-container" data-bs-slide-to={i} aria-label={`Slide ${(i+1)}`} className="active" aria-current="true"></button>
                             : <button key={i} type="button" data-bs-target="#carousel-container" data-bs-slide-to={i} aria-label={`Slide ${(i+1)}`}></button>
-                        )
+                        ) :
+                        <></>
                     }
                 </div>
                 <div className="carousel-inner">
@@ -66,7 +68,8 @@ function Raid() {
                         </div>
                     </div> */}
                     {
-                        state.raid.data.map((raid, i) => 
+                        state.raid.data.length > 0 ? 
+                        state.raid.data?.map((raid, i) => 
                             <div className={i === 0 ? 'carousel-item active' : 'carousel-item'} key={i}>
                                 <div className="card">
                                     <div className="card-body">
@@ -75,17 +78,18 @@ function Raid() {
                                         </div>
                                         <div>
                                             {/* 인원 */}
-                                            <button className="btn btn-warning" type="button">5/10</button>
+                                            {getMemberStateBtn(raid)}
                                             {/* 날짜 */} 
-                                            <p className="card-text">{raid.d_date} {raid.d_time} {getDdayTag(raid.d_date)}</p>
+                                            <p className="card-text mt-3"><span className="badge text-bg-light">{raid.d_date} {raid.d_time}</span> {getDdayTag(raid.d_date)}</p>
                                             {/* 상태 */}
-                                            <button className="btn btn-secondary" type="button" disabled>날짜지남</button>
+                                            {setUserStateBtn(raid)}
                                         </div>
                                         <div className="mb-5"></div>
                                     </div>
                                 </div>
                             </div>
-                        )
+                        ) :
+                        <h4>소속된 레이드 정보가 없습니다.</h4>
                     }
                 </div>
                 <button className="carousel-control-prev" type="button" data-bs-target="#carousel-container" data-bs-slide="prev">
@@ -100,9 +104,48 @@ function Raid() {
         </div>
         <InviteGroup />
         <MemberGroup />
-        <NewRaid />
+        <NewRaid getRaidList={getRaidList}/>
         </>
     )
+
+    function setUserState(_id_user, state) {
+        
+    }
+
+    function setUserStateBtn(raid) {
+        let state = raid.members.find(x => x._id === session_user._id).state;  
+        let dDay = calDday(raid.d_date);  // 0: D-Day, <0: 날짜지남, >0: D-?
+
+        if(dDay < 0){
+            return (<button className="btn btn-secondary" type="button" disabled>날짜지남</button>)
+        } else {
+            if (state) {
+                return (<button onClick={setUserState(session_user._id, 0)} className="btn btn-outline-danger" type="button">선택취소</button>)
+            } else {
+                return (<button onClick={setUserState(session_user._id, 1)} className="btn btn-outline-success" type="button">일정확인</button>)
+            }
+        }
+    }
+
+    function getMemberStateBtn(raid) {
+        let variant = 'btn-warning';
+        let contents = '?/?';
+
+        const members = raid.members;
+        const num_all = members.length;
+        const num_ready = members.filter(x => x.state === 1).length;
+
+        if (num_ready === num_all) {
+            variant = 'btn-success';
+        } else {
+            variant = 'btn-warning';
+        }
+        contents = num_ready + '/' + num_all;
+
+        return (
+            <button className={`btn ${variant}`} type="button">{contents}</button>
+        )
+    }
 
     function calDday(targetDate){
         let dday = new Date(targetDate);
@@ -115,13 +158,13 @@ function Raid() {
     }
 
     function getDdayTag(targetDate){
-        let result = calDday(targetDate);
-        if(result === 0) {
-            return (<span className="badge text-bg-danger">D-DAY</span>);
-        } else if(result > 0){
-            return (<span className="badge text-bg-success">D-{result}</span>);
+        let dDay = calDday(targetDate);
+        if(dDay === 0) {
+            return (<span className="badge rounded-pill text-bg-danger">D-DAY</span>);
+        } else if(dDay > 0){
+            return (<span className="badge rounded-pill text-bg-success">D-{dDay}</span>);
         } else {
-            return (<span className="badge text-bg-dark">D+{-1*result}</span>);
+            return (<span className="badge rounded-pill text-bg-dark">D+{-1*dDay}</span>);
         }
     }
 

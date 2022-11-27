@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIsLogin } from '../store/slice.user';
+import { setGroup } from '../store/slice.group';
+import { setRaid } from '../store/slice.raid';
+
 
 function Login() {
     let dispatch = useDispatch();
@@ -45,6 +48,12 @@ function Login() {
             const response = res.data;
             if(response.success){
                 dispatch(setIsLogin(true));
+                dispatch(setGroup({
+                    _id: '', 
+                    name: '', 
+                    members: [], 
+                }));
+                dispatch(setRaid({}));
                 localStorage.setItem('session_user', JSON.stringify(response.data));
                 navigate('/');
             } else {

@@ -19,7 +19,7 @@ class Raid {
     async list() {
         const client = this.body;
         try {
-            const raids = await RaidStorage.getRaids(client._id_group);
+            const raids = await RaidStorage.getRaids(client);
             return { success: true, data: raids};
         } catch (err) {
             return { success: false, err };

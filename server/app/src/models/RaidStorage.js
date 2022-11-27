@@ -13,8 +13,8 @@ class RaidStorage {
                 d_time: raidInfo.d_time, 
                 members: {
                     _id: ObjectId(raidInfo._id_master), 
-                    id: raidInfo.id, 
-                    name: raidInfo.name, 
+                    id: raidInfo.id_master, 
+                    name: raidInfo.name_master, 
                     rank: 0, 
                     state: 0, 
                 }, 
@@ -27,9 +27,9 @@ class RaidStorage {
         });
     };
 
-    static getRaids(_id) {
+    static getRaids(info) {
         return new Promise((resolve, reject) => {
-            Raid.find({ group_id: ObjectId(_id) }, (err, data) => {
+            Raid.find({ group_id: ObjectId(info._id_group), members: { $elemMatch: { _id: ObjectId(info._id_user) } } }, (err, data) => {
                 if (err) reject(`${err}`);
                 else resolve(data);
             })

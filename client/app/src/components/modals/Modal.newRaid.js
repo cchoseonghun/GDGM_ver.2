@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { setAlert } from '../../store/slice.alert';
 
-function NewRaid() {
+function NewRaid(props) {
     let dispatch = useDispatch();
 
     let state = useSelector((state)=> state );
@@ -65,13 +65,15 @@ function NewRaid() {
         }).then((res)=>{
             const response = res.data;
             if(response.success){
+                setName('');
+                setD_date('');
+                setD_time('');
+                props.getRaidList();
+
                 dispatch(setAlert({switch: true, variant: 'success', message: response.msg}));
                 setTimeout(()=>{
                     dispatch(setAlert({switch: false, variant: '', content: ''}));
                 }, 5000);
-                setName('');
-                setD_date('');
-                setD_time('');
                 document.querySelectorAll('.btn-close')[2].click();
             } else {
                 if(response.err) return alert(response.err);
