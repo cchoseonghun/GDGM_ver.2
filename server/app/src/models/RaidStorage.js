@@ -35,6 +35,25 @@ class RaidStorage {
             })
         })
     }
+
+    static updateState(client) {
+        return new Promise((resolve, reject) => {
+            Raid.updateOne(
+                { 
+                    _id: ObjectId(client._id_raid), 
+                    'members._id': ObjectId(client._id_user)
+                }, 
+                {
+                    $set: {
+                        'members.$.state': client.state_user
+                    }
+                }, (err, data) => {
+                    if (err) reject(`${err}`);
+                    else resolve({ success: true, msg: '일정 확인 상태 변경 완료.' });
+                }
+            );
+        })
+    }
 }
 
 module.exports = RaidStorage;

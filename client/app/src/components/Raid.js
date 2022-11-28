@@ -108,8 +108,23 @@ function Raid() {
         </>
     )
 
-    function setUserState(_id_user, state) {
-        
+    function setUserState(_id_raid, state) {
+        const server_address = process.env.REACT_APP_SERVER_ADDRESS;
+        axios.patch(server_address + '/raid/members', {
+            _id_raid, 
+            _id_user: session_user._id, 
+            state_user: state, 
+        }).then((res)=>{
+            const response = res.data;
+            if(response.success){
+                getRaidList();
+            } else {
+                if(response.err) return alert(response.err);
+                alert(response.msg);
+            }
+        }).catch(()=>{
+            console.error(new Error('일정 확인 상태 변경 중 에러 발생'));
+        })
     }
 
     function setUserStateBtn(raid) {
@@ -120,9 +135,9 @@ function Raid() {
             return (<button className="btn btn-secondary" type="button" disabled>날짜지남</button>)
         } else {
             if (state) {
-                return (<button onClick={setUserState(session_user._id, 0)} className="btn btn-outline-danger" type="button">선택취소</button>)
+                return (<button onClick={()=>{setUserState(raid._id, 0)}} className="btn btn-outline-danger" type="button">선택취소</button>)
             } else {
-                return (<button onClick={setUserState(session_user._id, 1)} className="btn btn-outline-success" type="button">일정확인</button>)
+                return (<button onClick={()=>{setUserState(raid._id, 1)}} className="btn btn-outline-success" type="button">일정확인</button>)
             }
         }
     }

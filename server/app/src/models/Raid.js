@@ -25,6 +25,15 @@ class Raid {
             return { success: false, err };
         }
     }
+
+    async update() {
+        const client = this.body;
+        try {
+            return await RaidStorage.updateState(client);
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = Raid;

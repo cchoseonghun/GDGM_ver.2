@@ -7,5 +7,6 @@ const ctrl = require('./raid.ctrl');
 
 router.get('/', ctrl.output.list);
 router.post('/', ctrl.process.create);
+router.patch('/members', ctrl.process.update);
 
 module.exports = router;
