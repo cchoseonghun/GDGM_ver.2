@@ -49,9 +49,34 @@ class RaidStorage {
                     }
                 }, (err, data) => {
                     if (err) reject(`${err}`);
-                    else resolve({ success: true, msg: '일정 확인 상태 변경 완료.' });
+                    else resolve({ success: true, msg: '일정 확인 상태 변경 완료' });
                 }
             );
+        })
+    }
+
+    static deleteRaid(client) {
+        return new Promise((resolve, reject) => {
+            Raid.find({ _id: ObjectId(client._id_raid), 'members._id': ObjectId(client._id_user) }, (err, data)=>{
+                if (err) reject(`${err}`);
+                else {
+                    if (data.length > 0) {
+                        Raid.deleteOne(
+                            {
+                                _id: ObjectId(client._id_raid), 
+                                'members._id': ObjectId(client._id_user)
+                            }, (err, data) => {
+                                if (err) reject(`${err}`);
+                                else resolve({ success: true, msg: '레이드 삭제 완료' });
+                            }
+                        )
+                    } else {
+                        resolve({ success: false, msg: '레이드 정보를 찾을 수 없음' });
+                    }
+
+                }
+            })
+            
         })
     }
 }

@@ -7,6 +7,8 @@ import InviteGroup from './modals/Modal.inviteGroup';
 import MemberGroup from './modals/Modal.memberGroup';
 import NewRaid from './modals/Modal.newRaid';
 import { setRaid } from '../store/slice.raid'
+import { setAlert } from '../store/slice.alert';
+
 
 function Raid() {
     let navigate = useNavigate();
@@ -44,29 +46,6 @@ function Raid() {
                     }
                 </div>
                 <div className="carousel-inner">
-
-                    {/* <div className="carousel-item active">
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="card-title">
-                                    <div className="btn-group">
-                                        <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            타이틀
-                                        </button>
-                                        <ul className="dropdown-menu">
-                                            <li><a className="dropdown-item">레이드삭제</a></li>
-                                        </ul>
-                                    </div> 
-                                </div>
-                                <div>
-                                    <button className="btn btn-warning" type="button">0/0</button>
-                                    <p className="card-text">2022-11-08 23:10 <span className="badge text-bg-dark">D+95</span></p>
-                                    <button className="btn btn-secondary" type="button" disabled>날짜지남</button>
-                                </div>
-                                <div className="mb-5"></div>
-                            </div>
-                        </div>
-                    </div> */}
                     {
                         state.raid.data.length > 0 ? 
                         state.raid.data?.map((raid, i) => 
@@ -74,7 +53,18 @@ function Raid() {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="card-title">
-                                            <button className="btn btn-primary" type="button">{raid.name}</button>
+                                            {
+                                                raid.members.find(x => x.rank === 0)._id === session_user._id ? 
+                                                <div className="btn-group">
+                                                    <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        {raid.name}
+                                                    </button>
+                                                    <ul className="dropdown-menu">
+                                                        <li><a onClick={()=>{deleteRaid(raid)}} className="dropdown-item">레이드삭제</a></li>
+                                                    </ul>
+                                                </div>   :
+                                                <button className="btn btn-primary" type="button">{raid.name}</button>
+                                            }
                                         </div>
                                         <div>
                                             {/* 인원 */}
@@ -107,6 +97,32 @@ function Raid() {
         <NewRaid getRaidList={getRaidList}/>
         </>
     )
+
+
+    function deleteRaid(raid) {
+        const _id_raid = raid._id;
+        const answer = window.confirm(`삭제하면 [${raid.name}]의 일정과 멤버 목록은 DB에서 완전히 제거됩니다.\n정말 레이드를 삭제하시겠습니까?`);
+
+        if (answer) {
+            const server_address = process.env.REACT_APP_SERVER_ADDRESS;
+            axios.delete(server_address + '/raid', {
+                data: {
+                    _id_raid, 
+                    _id_user: session_user._id, 
+                }
+            }).then((res)=>{
+                const response = res.data;
+                if(response.success){
+                    getRaidList();
+                    showAlert('success', response.msg);
+                } else {
+                    showAlert('danger', response.msg);
+                }
+            }).catch(()=>{
+                console.error(new Error('레이드 삭제 중 에러 발생'));
+            })
+        }
+    }
 
     function setUserState(_id_raid, state) {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
@@ -203,6 +219,14 @@ function Raid() {
         }).catch(()=>{
             console.error(new Error('소속 공격대 레이드 리스트업 중 에러 발생'));
         })
+    }
+
+    function showAlert(variant, message) {
+        dispatch(setAlert({switch: true, variant: variant, message: message}));
+        setTimeout(()=>{
+            dispatch(setAlert({switch: false, variant: '', content: ''}));
+        }, 5000);
+        document.querySelector('.btn-close').click();
     }
 }
 

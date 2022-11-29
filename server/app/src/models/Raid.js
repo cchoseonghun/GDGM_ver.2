@@ -34,6 +34,15 @@ class Raid {
             return { success: false, err };
         }
     }
+
+    async delete() {
+        const client = this.body;
+        try {
+            return await RaidStorage.deleteRaid(client);
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = Raid;

@@ -46,6 +46,20 @@ const process = {
         // log(response, url);
         return res.status(url.status).json(response);
     }, 
+
+    delete: async (req, res) => {
+        const raid = new Raid(req.body);
+        const response = await raid.delete();
+        
+        const url = {
+            method: 'DELETE', 
+            path: '/raid', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        // log(response, url);
+        return res.status(url.status).json(response);
+    }, 
 }
 
 module.exports = {
