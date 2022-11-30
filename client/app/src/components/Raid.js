@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import InviteGroup from './modals/Modal.inviteGroup';
 import MemberGroup from './modals/Modal.memberGroup';
+import MemberRaid from './modals/Modal.memberRaid';
 import NewRaid from './modals/Modal.newRaid';
-import { setRaid } from '../store/slice.raid'
+import { setRaid, setModal } from '../store/slice.raid'
 import { setAlert } from '../store/slice.alert';
 
 
@@ -95,6 +96,7 @@ function Raid() {
         <InviteGroup />
         <MemberGroup />
         <NewRaid getRaidList={getRaidList}/>
+        <MemberRaid />
         </>
     )
 
@@ -174,8 +176,13 @@ function Raid() {
         contents = num_ready + '/' + num_all;
 
         return (
-            <button className={`btn ${variant}`} type="button">{contents}</button>
+            <button onClick={()=>{setRaidModal(raid._id)}} data-bs-toggle="modal" data-bs-target="#MemberRaid" className={`btn ${variant}`} type="button">{contents}</button>
         )
+    }
+
+    function setRaidModal(_id) {
+        const raidInfo = state.raid.data.find(x => x._id === _id);
+        dispatch(setModal(raidInfo));
     }
 
     function calDday(targetDate){
