@@ -28,15 +28,20 @@ function MemberRaid() {
                                     {
                                         state.raid.modal.members.map((member, i)=>{
                                             return (
-                                                <li className="list-group-item" key={i}>
+                                                <li className="list-group-item d-flex justify-content-between" key={i}>
+                                                    <div>
+                                                        {
+                                                            member.rank !== 0 ? 
+                                                            <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i}/> : ''
+                                                        }
+                                                        <label className="form-check-label" for={'checkbox_'+i}>
+                                                            {member.name}
+                                                        </label>
+                                                    </div>
                                                     {
                                                         member.rank === 0 ? 
-                                                        <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} disabled/> :
-                                                        <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i}/>
+                                                        <span className="badge bg-primary rounded-pill">생성자</span> : ''
                                                     }
-                                                    <label className="form-check-label" for={'checkbox_'+i}>
-                                                        {member.name}
-                                                    </label>
                                                 </li>
                                             )
                                         })
