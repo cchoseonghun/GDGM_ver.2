@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Clock from './Clock'
 import { setIsLogin } from '../store/slice.user';
+import { setAlert } from '../store/slice.alert';
 
 function Nav() {
     let dispatch = useDispatch();
@@ -35,10 +36,20 @@ function Nav() {
                     </>
                 }
             </nav>
-            { state.alert.switch && <div className={'alert alert-'+state.alert.variant} role={state.alert.variant} style={{ textAlign: 'center' }}>{state.alert.message}</div> }
+            { 
+                state.alert.switch && 
+                <div className={'alert alert-'+state.alert.variant} role={state.alert.variant} style={{ textAlign: 'center' }}>
+                    {state.alert.message}
+                    <button onClick={()=>{hideAlert()}} type="button" className="btn-close float-end"></button>
+                </div> 
+            }
         </div>
         </>
     )
+
+    function hideAlert() {
+        dispatch(setAlert({switch: false, variant: '', content: ''}));
+    }
             
     function logout(){
         dispatch(setIsLogin(false));

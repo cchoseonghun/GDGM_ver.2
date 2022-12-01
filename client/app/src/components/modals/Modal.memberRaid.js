@@ -34,7 +34,7 @@ function MemberRaid() {
                                                             member.rank !== 0 ? 
                                                             <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i}/> : ''
                                                         }
-                                                        <label className="form-check-label" for={'checkbox_'+i}>
+                                                        <label className="form-check-label" htmlFor={'checkbox_'+i}>
                                                             {member.name}
                                                         </label>
                                                     </div>
@@ -66,7 +66,7 @@ function MemberRaid() {
                                                             <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} disabled/> :
                                                             <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i}/>
                                                         }
-                                                        <label className="form-check-label" for={'checkbox_'+i}>
+                                                        <label className="form-check-label" htmlFor={'checkbox_'+i}>
                                                             {member.name}
                                                         </label>
                                                     </li>
