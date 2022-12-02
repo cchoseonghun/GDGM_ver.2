@@ -36,7 +36,7 @@ class RaidStorage {
         })
     }
 
-    static updateState(client) {
+    static updateMemberState(client) {
         return new Promise((resolve, reject) => {
             Raid.updateOne(
                 { 
@@ -78,6 +78,10 @@ class RaidStorage {
             })
             
         })
+    }
+
+    static addMembers(client) {
+        return {success: false, msg: 'no'};
     }
 }
 

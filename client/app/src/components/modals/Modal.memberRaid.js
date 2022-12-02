@@ -1,7 +1,11 @@
+import axios from 'axios';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 function MemberRaid() {
     let state = useSelector((state)=> state );
+    let [includedArr, setIncludedArr] = useState([]);
+    let [waitingArr, setWaitingArr] = useState([]);
 
     return (
         <>
@@ -22,7 +26,7 @@ function MemberRaid() {
                             {/* 소속 */}
                             <div className="tab-pane fade show active" id="included" role="tabpanel" aria-labelledby="included-list">
                                 <div className="d-grid gap-2 mt-2 mb-2">
-                                    <button className="btn btn-danger" type="button">삭제</button>
+                                    <button onClick={()=>{removeRaidMembers()}} className="btn btn-danger" type="button">추방</button>
                                 </div>
                                 <div className="list-group">
                                     {
@@ -32,7 +36,7 @@ function MemberRaid() {
                                                     <div>
                                                         {
                                                             member.rank !== 0 ? 
-                                                            <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i}/> : ''
+                                                            <input onClick={(e)=>{pushCheckedValueToArrState(e, includedArr, setIncludedArr)}} className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={member}/> : ''
                                                         }
                                                         <label className="form-check-label" htmlFor={'checkbox_'+i}>
                                                             {member.name}
@@ -51,7 +55,7 @@ function MemberRaid() {
                             {/* 대기 */}
                             <div className="tab-pane fade" id="waiting" role="tabpanel" aria-labelledby="waiting-list">
                                 <div className="d-grid gap-2 mt-2 mb-2">
-                                    <button className="btn btn-success" type="button">추가</button>
+                                    <button onClick={()=>{addRaidMembers()}} className="btn btn-success" type="button">추가</button>
                                 </div>
                                 <div className="list-group">
                                     {
@@ -61,11 +65,7 @@ function MemberRaid() {
                                             } else {
                                                 return (
                                                     <li className="list-group-item" key={i}>
-                                                        {
-                                                            member.rank === 0 ? 
-                                                            <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} disabled/> :
-                                                            <input className="form-check-input me-1" type="checkbox" id={'checkbox_'+i}/>
-                                                        }
+                                                        <input onClick={(e)=>{pushCheckedValueToArrState(e, waitingArr, setWaitingArr)}} className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={member}/>
                                                         <label className="form-check-label" htmlFor={'checkbox_'+i}>
                                                             {member.name}
                                                         </label>
@@ -83,6 +83,39 @@ function MemberRaid() {
         </div>
         </>
     )
+
+    function pushCheckedValueToArrState(e, arr, setArr) {
+        let temp = arr;
+        if (e.target.checked) {
+            temp.push(e.target.value);
+        } else {
+            let i = temp.indexOf(e.target.value);
+            temp.splice(i, 1);
+        }
+        setArr(temp);
+    }
+
+    function addRaidMembers() {
+        const server_address = process.env.REACT_APP_SERVER_ADDRESS;
+        axios.post(server_address + '/raid/members', {
+            waitingArr
+        }).then((res)=>{
+            const response = res.data;
+            if(response.success){
+                // dispatch(setRaid(response.data));
+            } else {
+                if(response.err) return alert(response.err);
+                alert(response.msg);
+            }
+        }).catch(()=>{
+            console.error(new Error('레이드 멤버 추가 중 에러 발생'));
+        })
+    }
+
+    function removeRaidMembers() {
+        console.log('includedArr: ');
+        console.log(includedArr[0]);
+    }
 }
 
 export default MemberRaid;

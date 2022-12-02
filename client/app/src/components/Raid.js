@@ -128,7 +128,7 @@ function Raid() {
 
     function setUserState(_id_raid, state) {
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;
-        axios.patch(server_address + '/raid/members', {
+        axios.patch(server_address + '/raid/members/state', {
             _id_raid, 
             _id_user: session_user._id, 
             state_user: state, 

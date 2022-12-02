@@ -33,13 +33,13 @@ const process = {
         return res.status(url.status).json(response);
     }, 
 
-    update: async (req, res) => {
+    updateMemberState: async (req, res) => {
         const raid = new Raid(req.body);
-        const response = await raid.update();
+        const response = await raid.updateMemberState();
         
         const url = {
             method: 'PATCH', 
-            path: '/raid/members', 
+            path: '/raid/members/state', 
             body: JSON.stringify(req.body), 
             status: response.err ? 400 : 200, 
         };
@@ -54,6 +54,20 @@ const process = {
         const url = {
             method: 'DELETE', 
             path: '/raid', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        // log(response, url);
+        return res.status(url.status).json(response);
+    }, 
+
+    addMembers: async (req, res) => {
+        const raid = new Raid(req.body);
+        const response = await raid.addMembers();
+        
+        const url = {
+            method: 'POST', 
+            path: '/raid/members', 
             body: JSON.stringify(req.body), 
             status: response.err ? 400 : 200, 
         };

@@ -26,10 +26,10 @@ class Raid {
         }
     }
 
-    async update() {
+    async updateMemberState() {
         const client = this.body;
         try {
-            return await RaidStorage.updateState(client);
+            return await RaidStorage.updateMemberState(client);
         } catch (err) {
             return { success: false, err };
         }
@@ -37,8 +37,21 @@ class Raid {
 
     async delete() {
         const client = this.body;
+        
         try {
             return await RaidStorage.deleteRaid(client);
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
+    async addMembers() {
+        const client = this.body;
+        client.forEach((e)=>{
+            console.log(e);
+        })
+        try {
+            return await RaidStorage.addMembers(client);
         } catch (err) {
             return { success: false, err };
         }
