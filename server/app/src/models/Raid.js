@@ -47,9 +47,6 @@ class Raid {
 
     async addMembers() {
         const client = this.body;
-        client.forEach((e)=>{
-            console.log(e);
-        })
         try {
             return await RaidStorage.addMembers(client);
         } catch (err) {

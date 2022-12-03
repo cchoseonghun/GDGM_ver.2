@@ -96,7 +96,7 @@ function Raid() {
         <InviteGroup />
         <MemberGroup />
         <NewRaid getRaidList={getRaidList}/>
-        <MemberRaid />
+        <MemberRaid refreshRaidModalData={refreshRaidModalData}/>
         </>
     )
 
@@ -180,7 +180,27 @@ function Raid() {
         )
     }
 
+    // function f1(){
+    //     return new Promise(resolve => {
+            
+    //     });
+    // };
+    
+    // function f2(){
+    //     return new Promise(resolve => {
+            
+    //     });
+    // };
+
+    function refreshRaidModalData() {
+        // (async () => {
+        //     await f2();
+        //     await f1();
+        // })();
+    }
+
     function setRaidModal(_id) {
+        console.log('setRaidModal: ' + _id);
         const raidInfo = state.raid.data.find(x => x._id === _id);
         dispatch(setModal(raidInfo));
     }
@@ -207,6 +227,7 @@ function Raid() {
     }
 
     function getRaidList() {
+        console.log('getRaidList 실행');
         let _id_group = state.group._id;
 
         const server_address = process.env.REACT_APP_SERVER_ADDRESS;

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIsLogin } from '../store/slice.user';
 import { setGroup } from '../store/slice.group';
-import { setRaid } from '../store/slice.raid';
+import { setRaid, setModal } from '../store/slice.raid';
 
 
 function Login() {
@@ -54,6 +54,7 @@ function Login() {
                     members: [], 
                 }));
                 dispatch(setRaid({}));
+                dispatch(setModal({}));
                 localStorage.setItem('session_user', JSON.stringify(response.data));
                 navigate('/');
             } else {

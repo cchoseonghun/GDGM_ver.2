@@ -81,7 +81,26 @@ class RaidStorage {
     }
 
     static addMembers(client) {
-        return {success: false, msg: 'no'};
+        let changedObjectIdArr = client.waitingArr;
+        changedObjectIdArr.forEach((e)=>{
+            e._id = ObjectId(e._id);
+        })
+
+        return new Promise((resolve, reject) => {
+            Raid.updateOne(
+                { _id: ObjectId(client._id_raid) }, 
+                {
+                    $push: {
+                        members: {
+                            $each: changedObjectIdArr
+                        }
+                    }
+                }, (err, data) => {
+                    if (err) reject(`${err}`);
+                    else resolve({ success: true, msg: '레이드 멤버 추가 완료' });
+                }
+            );
+        })
     }
 }
 

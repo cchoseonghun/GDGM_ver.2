@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-function MemberRaid() {
+function MemberRaid(props) {
     let state = useSelector((state)=> state );
     let [includedArr, setIncludedArr] = useState([]);
     let [waitingArr, setWaitingArr] = useState([]);
@@ -30,6 +30,7 @@ function MemberRaid() {
                                 </div>
                                 <div className="list-group">
                                     {
+                                        Object.keys(state.raid.modal).length > 0 ? 
                                         state.raid.modal.members.map((member, i)=>{
                                             return (
                                                 <li className="list-group-item d-flex justify-content-between" key={i}>
@@ -48,7 +49,7 @@ function MemberRaid() {
                                                     }
                                                 </li>
                                             )
-                                        })
+                                        }) : <></>
                                     }
                                 </div>
                             </div>
@@ -59,20 +60,21 @@ function MemberRaid() {
                                 </div>
                                 <div className="list-group">
                                     {
+                                        Object.keys(state.raid.modal).length > 0 ? 
                                         state.group.members.map((member, i)=>{
                                             if (state.raid.modal.members.find(x => x._id === member._id)) {
                                                 return false;
                                             } else {
                                                 return (
                                                     <li className="list-group-item" key={i}>
-                                                        <input onClick={(e)=>{pushCheckedValueToArrState(e, waitingArr, setWaitingArr)}} className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={member}/>
+                                                        <input onClick={(e)=>{pushCheckedValueToArrState(e, waitingArr, setWaitingArr)}} className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={JSON.stringify(member)}/>
                                                         <label className="form-check-label" htmlFor={'checkbox_'+i}>
                                                             {member.name}
                                                         </label>
                                                     </li>
                                                 )
                                             }
-                                        })
+                                        }) : <></>
                                     }
                                 </div>
                             </div>
@@ -87,7 +89,7 @@ function MemberRaid() {
     function pushCheckedValueToArrState(e, arr, setArr) {
         let temp = arr;
         if (e.target.checked) {
-            temp.push(e.target.value);
+            temp.push(JSON.parse(e.target.value));
         } else {
             let i = temp.indexOf(e.target.value);
             temp.splice(i, 1);
@@ -96,20 +98,24 @@ function MemberRaid() {
     }
 
     function addRaidMembers() {
-        const server_address = process.env.REACT_APP_SERVER_ADDRESS;
-        axios.post(server_address + '/raid/members', {
-            waitingArr
-        }).then((res)=>{
-            const response = res.data;
-            if(response.success){
-                // dispatch(setRaid(response.data));
-            } else {
-                if(response.err) return alert(response.err);
-                alert(response.msg);
-            }
-        }).catch(()=>{
-            console.error(new Error('레이드 멤버 추가 중 에러 발생'));
-        })
+        if (waitingArr.length > 0) {
+            const server_address = process.env.REACT_APP_SERVER_ADDRESS;
+            axios.post(server_address + '/raid/members', {
+                _id_raid: state.raid.modal._id, 
+                waitingArr, 
+            }).then((res)=>{
+                const response = res.data;
+                if(response.success){
+                    // dispatch(setRaid(response.data));
+                    // props.refreshRaidModalData();
+                } else {
+                    if(response.err) return alert(response.err);
+                    alert(response.msg);
+                }
+            }).catch(()=>{
+                console.error(new Error('레이드 멤버 추가 중 에러 발생'));
+            })
+        }
     }
 
     function removeRaidMembers() {
