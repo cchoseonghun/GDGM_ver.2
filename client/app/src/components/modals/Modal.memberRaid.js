@@ -57,6 +57,7 @@ function MemberRaid(props) {
                             <div className="tab-pane fade" id="waiting" role="tabpanel" aria-labelledby="waiting-list">
                                 <div className="d-grid gap-2 mt-2 mb-2">
                                     <button onClick={()=>{addRaidMembers()}} className="btn btn-success" type="button">추가</button>
+                                    <button onClick={()=>{props.setRaidModal(state.raid.modal._id)}} className="d-none" id="setRaidModalBtn" type="button">hidden-btn</button>
                                 </div>
                                 <div className="list-group">
                                     {
@@ -106,12 +107,20 @@ function MemberRaid(props) {
             }).then((res)=>{
                 const response = res.data;
                 if(response.success){
-                    // dispatch(setRaid(response.data));
-                    // props.refreshRaidModalData();
+                    props.getRaidList();
+                    setWaitingArr([]);
                 } else {
                     if(response.err) return alert(response.err);
                     alert(response.msg);
                 }
+            }).then(()=>{
+                // 원래는 props.getRaidList(); 뒤에 
+                // props.setRaidModal(state.raid.modal._id) 가 실행되어야 하지만
+                // react redux의 기능 때문인지 몇초나 뒤로 늦춰도, promise, async/await을 써봐도 
+                // 변경되지 않은 값을 가져오고 있어 이런 방법을 통해 임시 해결.
+                setTimeout(() => {
+                    document.querySelector('#setRaidModalBtn').click();
+                }, 100);
             }).catch(()=>{
                 console.error(new Error('레이드 멤버 추가 중 에러 발생'));
             })
