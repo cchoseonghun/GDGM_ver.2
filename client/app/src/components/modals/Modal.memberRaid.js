@@ -37,7 +37,7 @@ function MemberRaid(props) {
                                                     <div>
                                                         {
                                                             member.rank !== 0 ? 
-                                                            <input onClick={(e)=>{pushCheckedValueToArrState(e, includedArr, setIncludedArr)}} className="form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={member}/> : ''
+                                                            <input onClick={(e)=>{pushCheckedValueToArrState(e, includedArr, setIncludedArr)}} className="includedCheckboxes form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={JSON.stringify(member)}/> : ''
                                                         }
                                                         <label className="form-check-label" htmlFor={'checkbox_'+i}>
                                                             {member.name}
@@ -103,7 +103,7 @@ function MemberRaid(props) {
             const server_address = process.env.REACT_APP_SERVER_ADDRESS;
             axios.post(server_address + '/raid/members', {
                 _id_raid: state.raid.modal._id, 
-                waitingArr, 
+                member_arr: waitingArr, 
             }).then((res)=>{
                 const response = res.data;
                 if(response.success){
@@ -128,8 +128,32 @@ function MemberRaid(props) {
     }
 
     function removeRaidMembers() {
-        console.log('includedArr: ');
-        console.log(includedArr[0]);
+        if (includedArr.length > 0) {
+            const server_address = process.env.REACT_APP_SERVER_ADDRESS;
+            axios.patch(server_address + '/raid/members', {
+                _id_raid: state.raid.modal._id, 
+                member_arr: includedArr, 
+            }).then((res)=>{
+                const response = res.data;
+                if(response.success){
+                    props.getRaidList();
+
+                    document.querySelectorAll('.includedCheckboxes').forEach((e)=>{
+                        e.checked = false;
+                    })
+                    setIncludedArr([]);
+                } else {
+                    if(response.err) return alert(response.err);
+                    alert(response.msg);
+                }
+            }).then(()=>{
+                setTimeout(() => {
+                    document.querySelector('#setRaidModalBtn').click();
+                }, 100);
+            }).catch(()=>{
+                console.error(new Error('레이드 멤버 추방 중 에러 발생'));
+            })
+        }
     }
 }
 

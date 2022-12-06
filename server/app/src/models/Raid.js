@@ -37,7 +37,6 @@ class Raid {
 
     async delete() {
         const client = this.body;
-        
         try {
             return await RaidStorage.deleteRaid(client);
         } catch (err) {
@@ -49,6 +48,15 @@ class Raid {
         const client = this.body;
         try {
             return await RaidStorage.addMembers(client);
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
+    async excludeMembers() {
+        const client = this.body;
+        try {
+            return await RaidStorage.excludeMembers(client);
         } catch (err) {
             return { success: false, err };
         }

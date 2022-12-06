@@ -74,6 +74,20 @@ const process = {
         // log(response, url);
         return res.status(url.status).json(response);
     }, 
+
+    excludeMembers: async (req, res) => {
+        const raid = new Raid(req.body);
+        const response = await raid.excludeMembers();
+        
+        const url = {
+            method: 'DELETE', 
+            path: '/raid/members', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        // log(response, url);
+        return res.status(url.status).json(response);
+    }, 
 }
 
 module.exports = {

@@ -29,7 +29,15 @@ class RaidStorage {
 
     static getRaids(info) {
         return new Promise((resolve, reject) => {
-            Raid.find({ group_id: ObjectId(info._id_group), members: { $elemMatch: { _id: ObjectId(info._id_user) } } }, (err, data) => {
+            Raid.find(
+                { 
+                    group_id: ObjectId(info._id_group), 
+                    members: { 
+                        $elemMatch: { 
+                            _id: ObjectId(info._id_user) 
+                        } 
+                    } 
+                }, (err, data) => {
                 if (err) reject(`${err}`);
                 else resolve(data);
             })
@@ -81,8 +89,8 @@ class RaidStorage {
     }
 
     static addMembers(client) {
-        let changedObjectIdArr = client.waitingArr;
-        changedObjectIdArr.forEach((e)=>{
+        let converted_ObjectId_arr = client.member_arr;
+        converted_ObjectId_arr.forEach((e)=>{
             e._id = ObjectId(e._id);
         })
 
@@ -92,7 +100,30 @@ class RaidStorage {
                 {
                     $push: {
                         members: {
-                            $each: changedObjectIdArr
+                            $each: converted_ObjectId_arr
+                        }
+                    }
+                }, (err, data) => {
+                    if (err) reject(`${err}`);
+                    else resolve({ success: true, msg: '레이드 멤버 추가 완료' });
+                }
+            );
+        })
+    }
+
+    static excludeMembers(client) {
+        let pulled_ObjectId_arr = [];
+        client.member_arr.forEach((e)=>{
+            pulled_ObjectId_arr.push(ObjectId(e._id));
+        })
+        // Mongoose 사용법 미숙으로 하나씩 삭제하게 구현
+        return new Promise((resolve, reject) => {
+            Raid.updateOne(
+                { _id: ObjectId(client._id_raid) }, 
+                {
+                    $pull: {
+                        members: {
+                            _id: pulled_ObjectId_arr[0]
                         }
                     }
                 }, (err, data) => {
