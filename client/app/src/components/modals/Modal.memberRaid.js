@@ -37,9 +37,10 @@ function MemberRaid(props) {
                                                     <div>
                                                         {
                                                             member.rank !== 0 ? 
-                                                            <input onClick={(e)=>{pushCheckedValueToArrState(e, includedArr, setIncludedArr)}} className="includedCheckboxes form-check-input me-1" type="checkbox" id={'checkbox_'+i} value={JSON.stringify(member)}/> : ''
+                                                            <input onClick={(e)=>{setIncludedArr([JSON.parse(e.target.value)])}} name="includedRadio" className="form-check-input me-1" type="radio" id={'radio_'+i} value={JSON.stringify(member)}/> : ''
+
                                                         }
-                                                        <label className="form-check-label" htmlFor={'checkbox_'+i}>
+                                                        <label className="form-check-label" htmlFor={'radio_'+i}>
                                                             {member.name}
                                                         </label>
                                                     </div>
@@ -86,6 +87,7 @@ function MemberRaid(props) {
         </div>
         </>
     )
+
 
     function pushCheckedValueToArrState(e, arr, setArr) {
         let temp = arr;
@@ -138,9 +140,8 @@ function MemberRaid(props) {
                 if(response.success){
                     props.getRaidList();
 
-                    document.querySelectorAll('.includedCheckboxes').forEach((e)=>{
-                        e.checked = false;
-                    })
+                    // checkbox 하나씩 다루기 힘들어 radio로 대체. 하지만 불안정함 상태
+                    document.querySelector('[name="includedRadio"]').checked = false;
                     setIncludedArr([]);
                 } else {
                     if(response.err) return alert(response.err);
