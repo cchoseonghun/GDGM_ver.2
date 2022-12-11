@@ -5,6 +5,13 @@ const User = require('../../models/User');
 
 const output = {
     index: (req, res) => {
+        const url = {
+            method: 'GET', 
+            path: '/', 
+            body: JSON.stringify(req.body), 
+            status: response.err ? 400 : 200, 
+        };
+        log(response, url);
         res.sendFile(path.join(__dirname, '../../client/app/build/index.html'));
     }, 
 }

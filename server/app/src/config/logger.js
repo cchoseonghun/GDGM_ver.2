@@ -13,7 +13,7 @@ const printLogFormat = {
             label: 'GDGM node'
         }), 
         timestamp({
-            format: 'YYYY-MM-DD HH:mm:dd:ss'
+            format: 'YYYY-MM-DD HH:mm:ss:dd'  // 여기서 dd의 의미가 뭘까..?
         }), 
         printFormat
     ), 
