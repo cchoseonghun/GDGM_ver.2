@@ -19,22 +19,22 @@ GDGM - ver.2
 
 # 사용 안내
 ## 1. 공격대 생성
-<img src="./markdown_images/1. 공격대 생성.gif" width="90%" title="1. 
+<img src="./markdown_images/1. 공격대 생성.gif" width="60%" title="1. 
 공격대 생성"></img>
 ## 2. 레이드 생성
-<img src="./markdown_images/2. 레이드 생성.gif" width="90%" title="2. 레이드 생성"></img>
+<img src="./markdown_images/2. 레이드 생성.gif" width="60%" title="2. 레이드 생성"></img>
 ## 3. 멤버 확인 및 초대코드 복사
-<img src="./markdown_images/3. 멤버 확인 및 초대코드 복사.gif" width="90%" title="3. 멤버 확인 및 초대코드 복사"></img>
+<img src="./markdown_images/3. 멤버 확인 및 초대코드 복사.gif" width="60%" title="3. 멤버 확인 및 초대코드 복사"></img>
 ## 4. 초대코드 입력
-<img src="./markdown_images/4. 초대코드 입력.gif" width="90%" title="4. 초대코드 입력"></img>
+<img src="./markdown_images/4. 초대코드 입력.gif" width="60%" title="4. 초대코드 입력"></img>
 ## 5. 레이드 멤버 추가
-<img src="./markdown_images/5. 레이드 멤버 추가.gif" width="90%" title="5. 레이드 멤버 추가"></img>
+<img src="./markdown_images/5. 레이드 멤버 추가.gif" width="60%" title="5. 레이드 멤버 추가"></img>
 ## 6. 레이드 멤버 추방
-<img src="./markdown_images/6. 레이드 멤버 추방.gif" width="90%" title="6. 레이드 멤버 추방"></img>
+<img src="./markdown_images/6. 레이드 멤버 추방.gif" width="60%" title="6. 레이드 멤버 추방"></img>
 ## 7. 상태 변경
-<img src="./markdown_images/7. 상태 변경.gif" width="90%" title="7. 상태 변경"></img>
+<img src="./markdown_images/7. 상태 변경.gif" width="60%" title="7. 상태 변경"></img>
 ## 8. 레이드 삭제
-<img src="./markdown_images/8. 레이드 삭제.gif" width="90%" title="8. 레이드 삭제"></img>
+<img src="./markdown_images/8. 레이드 삭제.gif" width="60%" title="8. 레이드 삭제"></img>
 
 
 # API 명세서
