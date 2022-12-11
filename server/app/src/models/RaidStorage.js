@@ -128,7 +128,7 @@ class RaidStorage {
                     }
                 }, (err, data) => {
                     if (err) reject(`${err}`);
-                    else resolve({ success: true, msg: '레이드 멤버 추가 완료' });
+                    else resolve({ success: true, msg: '레이드 멤버 추방 완료' });
                 }
             );
         })
